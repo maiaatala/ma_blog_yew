@@ -1,0 +1,28 @@
+# Rust
+/target
+**/*.rs.bk
+
+# Trunk output
+/dist
+
+# Node/npm (if ever used with tailwind or tooling)
+/node_modules
+/package-lock.json
+/yarn.lock
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor settings
+*.swp
+.idea/
+.vscode/
+
+# Docker
+*.tar
+docker-compose.override.yml
+
