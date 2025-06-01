@@ -11,6 +11,10 @@ IMAGE = yew-hello-app
 CONTAINER = yew-hello-container
 PORT = 8080
 
+SCSS_SRC = style.scss
+CSS_OUT = style.css
+CSS_MIN = style.min.css
+
 .PHONY: all build docker-build run clean
 
 # ─── Local dev server ───────────────────────────────────────────────────
@@ -42,6 +46,9 @@ docker-run:
 	  -e PORT=$(PORT) \
 	  --name $(CONTAINER) \
 	  $(IMAGE)
+
+minify:
+	sass $(SCSS_SRC) | cleancss -o $(CSS_MIN)
 
 # ─── Clean trunk output ─────────────────────────────────────────────────
 clean:

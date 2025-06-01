@@ -21,7 +21,7 @@ pub fn navbar() -> Html {
             move |_| open.set(false)
         })}>
             <nav class="navbar">
-                <h1 class="logo">{ "HTMX Page" }</h1>
+                <h1 class="logo">{ "Yew Page" }</h1>
                 <span _="on click from elsewhere remove .open from #navLinks">
                     <div
                         class="hamburger"
