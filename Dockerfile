@@ -9,6 +9,13 @@ RUN cd /tmp && tar xf trunk.tar.gz && chmod +x trunk && mv trunk /usr/local/bin/
 
 WORKDIR /app
 COPY . .
+
+# 4. Accept API_URL and TEST_VAR as build args, export them so `env!` sees them
+ARG API_URL
+ARG TEST_VAR
+ENV API_URL=${API_URL}
+ENV TEST_VAR=${TEST_VAR}
+
 RUN trunk build --release
 
 # Runtime stage: serve the output

@@ -1,30 +1,49 @@
+include .env
+export
+
+# Defaults (can be overridden on the command line)
+API_URL   ?= $(API_URL)
+TEST_VAR  ?= $(TEST_VAR)
+
 APP_NAME = yew-hello
 IMAGE_NAME = yew-hello-app
-CONTAINER_NAME = yew-hello-container
+IMAGE = yew-hello-app
+CONTAINER = yew-hello-container
 PORT = 8080
 
 .PHONY: all build docker-build run clean
 
+# ─── Local dev server ───────────────────────────────────────────────────
+# Loads .env, then runs `trunk serve` on $PORT.
 dev:
-	trunk serve
+	@echo "📡 Running local dev with TEST_VAR=$(TEST_VAR)  API_URL=$(API_URL)"
+	API_URL=$(API_URL) TEST_VAR=$(TEST_VAR) trunk serve --port $(PORT)
 
-# Local trunk build
+# ─── Local production build ─────────────────────────────────────────────
+# Bakes env! into the WASM → you can serve dist/ however you want.
 build:
-	trunk build --release
+	@echo "🛠  Building (release) with TEST_VAR=$(TEST_VAR)  API_URL=$(API_URL)"
+	API_URL=$(API_URL) TEST_VAR=$(TEST_VAR) trunk build --release
 
-# Build Docker image
+# ─── Build Docker image for Railway (and local) ─────────────────────────
+# Passes TEST_VAR and API_URL as --build-arg so the Dockerfile can see them.
 docker-build:
-	docker build -t $(IMAGE_NAME) .
+	@echo "🐳 Building Docker image with TEST_VAR=$(TEST_VAR)  API_URL=$(API_URL)"
+	docker build \
+	  --build-arg API_URL=$(API_URL) \
+	  --build-arg TEST_VAR=$(TEST_VAR) \
+	  -t $(IMAGE) .
 
-# Run the Docker container locally
+# ─── Run Docker container locally ────────────────────────────────────────
 docker-run:
-	docker run --rm -p $(PORT):$(PORT) --name $(CONTAINER_NAME) -e PORT=$(PORT) $(IMAGE_NAME)
+	@echo "▶️  Running Docker container locally on port $(PORT)"
+	docker run --rm \
+	  -p $(PORT):$(PORT) \
+	  -e PORT=$(PORT) \
+	  --name $(CONTAINER) \
+	  $(IMAGE)
 
-# Stop container manually (if needed)
-stop:
-	docker stop $(CONTAINER_NAME) || true
-
-# Clean trunk build output
+# ─── Clean trunk output ─────────────────────────────────────────────────
 clean:
+	trunk clean
 	rm -rf dist
-

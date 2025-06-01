@@ -26,3 +26,5 @@ Thumbs.db
 *.tar
 docker-compose.override.yml
 
+# envs
+.env

@@ -1,3 +1,5 @@
 [build]
 dist = "dist"
 
+[env]
+file = ".env"

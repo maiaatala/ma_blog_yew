@@ -1,5 +1,19 @@
 <!doctype html>
 <html lang="en">
-  <head></head>
-  <body></body>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Yew App</title>
+
+    <meta data-trunk-env="API_URL" content="" />
+    <meta data-trunk-env="TEST_VAR" content="" />
+  </head>
+  <body>
+    <!-- This is where your Yew app mounts -->
+    <main></main>
+
+    <script type="module">
+      import init from "./wasm_yew.js";
+      init();
+    </script>
+  </body>
 </html>
