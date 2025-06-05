@@ -5,6 +5,8 @@ mod components;
 mod pages;
 mod routes;
 mod layout;
+mod models;
+mod api;
 
 use crate::pages::{about::About, home::Home};
 use crate::routes::Route;
